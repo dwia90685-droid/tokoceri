@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CeriBlossom | Toko Bunga</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+    <div class="intro-flower">🌸</div>
+    <h1>CeriBlossom</h1>
+    <p>Flowers make life beautiful</p>
+</div>
+
+<!-- HEADER -->
+<header>
+    <div class="logo">🌷 CeriBlossom</div>
+
+    <nav>
+        <button class="nav-btn active" onclick="pindahSlide(0)">Beranda</button>
+        <button class="nav-btn" onclick="pindahSlide(1)">Toko</button>
+        <button class="nav-btn" onclick="pindahSlide(2)">Promo</button>
+        <button class="nav-btn" onclick="pindahSlide(3)">Tentang</button>
+        <button class="nav-btn" onclick="pindahSlide(4)">Kontak</button>
+    </nav>
+
+    <button class="cart-btn" onclick="bukaKeranjang()">
+        🛒 <span id="jumlah-keranjang">0</span>
+    </button>
+</header>
+
+<!-- AREA SLIDE -->
+<main id="stage">
+
+    <!-- SLIDE 1: BERANDA -->
+    <section class="slide active">
+        <div class="hero">
+            <div class="hero-text">
+                <p class="eyebrow">🌸 WELCOME TO CERIBLOSSOM 🌸</p>
+                <h1>Bloom with<br><span>Love & Happiness</span></h1>
+                <p>
+                    Hadirkan keindahan dan kebahagiaan
+                    melalui rangkaian bunga pilihan.
+                    Karena setiap bunga punya cerita.
+                </p>
+                <button class="main-btn" onclick="pindahSlide(1)">
+                    Jelajahi Toko 🌷
+                </button>
+            </div>
+
+            <div class="hero-photo">
+                <img
+                    src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1200&q=85"
+                    alt="Bunga warna-warni"
+                >
+                <div class="photo-label">Beautiful flowers, beautiful moments ♡</div>
+            </div>
+        </div>
+
+        <div class="slide-number">01 / 05</div>
+    </section>
+
+    <!-- SLIDE 2: TOKO -->
+    <section class="slide">
+        <div class="shop-page">
+            <div class="heading">
+                <p class="eyebrow">OUR FLOWER COLLECTION</p>
+                <h1>Temukan Bunga Favoritmu 💐</h1>
+                <p>Pilih rangkaian bunga cantik untuk orang tersayang.</p>
+            </div>
+
+            <div class="products">
+
+                <article class="product">
+                    <img src="https://images.unsplash.com/photo-1520763185298-1b434c919102?auto=format&fit=crop&w=700&q=85" alt="Buket bunga pink">
+                    <div class="product-info">
+                        <h3>Pink Blossom</h3>
+                        <p>Rp85.000</p>
+                        <button onclick="tambahKeranjang(0)">+ Keranjang</button>
+                    </div>
+                </article>
+
+                <article class="product">
+                    <img src="https://images.unsplash.com/photo-1494972308805-463bc619d34e?auto=format&fit=crop&w=700&q=85" alt="Bunga mawar">
+                    <div class="product-info">
+                        <h3>Sweet Roses</h3>
+                        <p>Rp100.000</p>
+                        <button onclick="tambahKeranjang(1)">+ Keranjang</button>
+                    </div>
+                </article>
+
+                <article class="product">
+                    <img src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=700&q=85" alt="Bunga tulip">
+                    <div class="product-info">
+                        <h3>Lovely Tulips</h3>
+                        <p>Rp120.000</p>
+                        <button onclick="tambahKeranjang(2)">+ Keranjang</button>
+                    </div>
+                </article>
+
+                <article class="product">
+                    <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=700&q=85" alt="Buket bunga cantik">
+                    <div class="product-info">
+                        <h3>Dreamy Bouquet</h3>
+                        <p>Rp150.000</p>
+                        <button onclick="tambahKeranjang(3)">+ Keranjang</button>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <div class="slide-number">02 / 05</div>
+    </section>
+
+    <!-- SLIDE 3: PROMO -->
+    <section class="slide">
+        <div class="promo-page">
+            <div class="promo-photo">
+                <img src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=1000&q=85" alt="Rangkaian bunga">
+            </div>
+
+            <div class="promo-text">
+                <p class="eyebrow">SPECIAL FOR YOU 💗</p>
+                <h1>Make Someone<br><span>Smile Today!</span></h1>
+                <p>
+                    Bunga cantik untuk ulang tahun,
+                    hadiah spesial, hari bahagia,
+                    dan momen penuh cinta.
+                </p>
+                <div class="discount">SPECIAL FLOWER COLLECTION</div>
+                <button class="main-btn" onclick="pindahSlide(1)">
+                    Lihat Bunga 🌸
+                </button>
+            </div>
+        </div>
+
+        <div class="slide-number">03 / 05</div>
+    </section>
+
+    <!-- SLIDE 4: TENTANG -->
+    <section class="slide">
+        <div class="about-page">
+            <div class="about-photo">
+                <img src="https://images.unsplash.com/photo-1494336934272-f0efcedfc8d9?auto=format&fit=crop&w=1000&q=85" alt="Bunga segar">
+            </div>
+
+            <div class="about-text">
+                <p class="eyebrow">ABOUT OUR FLOWER SHOP</p>
+                <h1>Welcome to<br><span>CeriBlossom</span></h1>
+                <p>
+                    CeriBlossom adalah toko bunga yang
+                    menghadirkan berbagai pilihan bunga
+                    dan buket cantik untuk setiap momen.
+                </p>
+                <p>
+                    Kami percaya bahwa bunga bukan hanya
+                    hadiah, tetapi juga cara indah untuk
+                    menyampaikan perasaan dan kasih sayang.
+                </p>
+                <button class="main-btn" onclick="pindahSlide(4)">
+                    Hubungi Kami 💌
+                </button>
+            </div>
+        </div>
+
+        <div class="slide-number">04 / 05</div>
+    </section>
+
+    <!-- SLIDE 5: KONTAK -->
+    <section class="slide">
+        <div class="contact-page">
+            <div class="contact-photo">
+                <img src="https://images.unsplash.com/photo-1487530811176-3780de880c2d?auto=format&fit=crop&w=1000&q=85" alt="Bunga pink">
+            </div>
+
+            <div class="contact-text">
+                <p class="eyebrow">LET'S KEEP IN TOUCH</p>
+                <h1>Say Hello to<br><span>CeriBlossom!</span></h1>
+                <p>Ingin memesan bunga atau bertanya tentang produk kami?</p>
+
+                <div class="contact-item">📱 WhatsApp: 08xxxxxxxxxx</div>
+                <div class="contact-item">📷 Instagram: @ceriblossom</div>
+                <div class="contact-item">✉️ Email: ceriblossom@gmail.com</div>
+
+                <button class="main-btn" onclick="pindahSlide(0)">
+                    Kembali ke Beranda 🌷
+                </button>
+            </div>
+        </div>
+
+        <div class="slide-number">05 / 05</div>
+    </section>
+
+</main>
+
+<!-- TOMBOL SLIDE -->
+<div class="slide-controls">
+    <button onclick="slideSebelumnya()" aria-label="Slide sebelumnya">❮</button>
+    <div id="dots"></div>
+    <button onclick="slideBerikutnya()" aria-label="Slide berikutnya">❯</button>
+</div>
+
+<!-- KERANJANG -->
+<div class="modal" id="modal-keranjang">
+    <div class="modal-box">
+        <button class="close" onclick="tutupKeranjang()">×</button>
+        <h2>🛒 Keranjang Belanja</h2>
+        <div id="isi-keranjang"></div>
+        <h3 id="total-harga">Total: Rp0</h3>
+        <button class="main-btn full" onclick="checkout()">
+            Lanjut Pemesanan
+        </button>
+    </div>
+</div>
+
+<div id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
