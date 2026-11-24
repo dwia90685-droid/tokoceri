@@ -1,207 +1,77 @@
 
-/* DATA PRODUK */
-const produk = [
-    { id: 0, nama: "Pink Blossom", harga: 85000 },
-    { id: 1, nama: "Sweet Roses", harga: 100000 },
-    { id: 2, nama: "Lovely Tulips", harga: 120000 },
-    { id: 3, nama: "Dreamy Bouquet", harga: 150000 }
-];
+let cart = [];
 
-let keranjang = [];
-let slideAktif = 0;
-
-const slides = document.querySelectorAll(".slide");
-const tombolNav = document.querySelectorAll(".nav-btn");
-const dots = document.getElementById("dots");
-
-/* BUAT TITIK SLIDE */
-slides.forEach((slide, index) => {
-    const dot = document.createElement("button");
-    dot.className = "dot";
-    dot.setAttribute("aria-label", "Buka slide " + (index + 1));
-    dot.onclick = () => pindahSlide(index);
-    dots.appendChild(dot);
-});
-
-/* PINDAH SLIDE */
-function pindahSlide(index) {
-    if (index < 0 || index >= slides.length) return;
-
-    slideAktif = index;
-
-    slides.forEach((slide, i) => {
-        slide.classList.toggle("active", i === index);
-    });
-
-    tombolNav.forEach((tombol, i) => {
-        tombol.classList.toggle("active", i === index);
-    });
-
-    document.querySelectorAll(".dot").forEach((dot, i) => {
-        dot.classList.toggle("active", i === index);
+function moveSlide(direction) {
+    const track = document.getElementById("flower-track");
+    track.scrollBy({
+        left: direction * 300,
+        behavior: "smooth"
     });
 }
 
-function slideBerikutnya() {
-    pindahSlide((slideAktif + 1) % slides.length);
+function addCart(name, price) {
+    cart.push({name, price});
+    updateCart();
 }
 
-function slideSebelumnya() {
-    pindahSlide((slideAktif - 1 + slides.length) % slides.length);
-}
+function updateCart() {
+    const items = document.getElementById("cart-items");
+    const total = document.getElementById("total");
 
-pindahSlide(0);
+    document.getElementById("cart-count").textContent = cart.length;
 
-/* TOMBOL PANAH KEYBOARD */
-document.addEventListener("keydown", function(event) {
-    if (event.key === "ArrowRight") slideBerikutnya();
-    if (event.key === "ArrowLeft") slideSebelumnya();
-});
-
-/* FORMAT RUPIAH */
-function rupiah(angka) {
-    return "Rp" + angka.toLocaleString("id-ID");
-}
-
-/* TAMBAH KERANJANG */
-function tambahKeranjang(id) {
-    const item = produk.find(p => p.id === id);
-    const sudahAda = keranjang.find(p => p.id === id);
-
-    if (sudahAda) {
-        sudahAda.jumlah++;
+    if (cart.length === 0) {
+        items.textContent = "Keranjang masih kosong 🌷";
     } else {
-        keranjang.push({
-            ...item,
-            jumlah: 1
-        });
-    }
-
-    perbaruiKeranjang();
-    tampilToast(item.nama + " masuk keranjang 💗");
-}
-
-/* UPDATE KERANJANG */
-function perbaruiKeranjang() {
-    const jumlah = keranjang.reduce(
-        (total, item) => total + item.jumlah, 0
-    );
-
-    document.getElementById("jumlah-keranjang").textContent = jumlah;
-
-    const tempat = document.getElementById("isi-keranjang");
-
-    if (keranjang.length === 0) {
-        tempat.innerHTML = "<p>Keranjang masih kosong 🌸</p>";
-    } else {
-        tempat.innerHTML = keranjang.map(item => `
-            <div class="item-cart">
-                <div>
-                    <strong>${item.nama}</strong>
-                    <p>${rupiah(item.harga)} x ${item.jumlah}</p>
-                </div>
-                <div>
-                    <button onclick="ubahJumlah(${item.id}, -1)">−</button>
-                    <button onclick="ubahJumlah(${item.id}, 1)">+</button>
-                    <button onclick="hapusProduk(${item.id})">×</button>
-                </div>
+        items.innerHTML = cart.map((item, index) => `
+            <div>
+                ${item.name} - Rp${item.price.toLocaleString("id-ID")}
+                <button onclick="removeCart(${index})">Hapus</button>
             </div>
         `).join("");
     }
 
-    const total = keranjang.reduce(
-        (sum, item) => sum + item.harga * item.jumlah, 0
-    );
-
-    document.getElementById("total-harga").textContent =
-        "Total: " + rupiah(total);
+    let sum = cart.reduce((total, item) => total + item.price, 0);
+    total.textContent = "Rp" + sum.toLocaleString("id-ID");
 }
 
-/* UBAH JUMLAH */
-function ubahJumlah(id, perubahan) {
-    const item = keranjang.find(p => p.id === id);
-    if (!item) return;
-
-    item.jumlah += perubahan;
-
-    if (item.jumlah <= 0) {
-        hapusProduk(id);
-    } else {
-        perbaruiKeranjang();
-    }
+function removeCart(index) {
+    cart.splice(index, 1);
+    updateCart();
 }
 
-/* HAPUS PRODUK */
-function hapusProduk(id) {
-    keranjang = keranjang.filter(item => item.id !== id);
-    perbaruiKeranjang();
-}
+function sendOrder(event) {
+    event.preventDefault();
 
-/* BUKA KERANJANG */
-function bukaKeranjang() {
-    perbaruiKeranjang();
-    document.getElementById("modal-keranjang").classList.add("show");
-}
+    const name = document.getElementById("customer").value;
+    const phone = document.getElementById("phone").value;
+    const address = document.getElementById("address").value;
 
-/* TUTUP KERANJANG */
-function tutupKeranjang() {
-    document.getElementById("modal-keranjang").classList.remove("show");
-}
-
-/* CHECKOUT SIMULASI */
-function checkout() {
-    if (keranjang.length === 0) {
-        tampilToast("Keranjang masih kosong 🌷");
+    if (cart.length === 0) {
+        alert("Silakan pilih bunga terlebih dahulu!");
         return;
     }
 
-    const total = keranjang.reduce(
-        (sum, item) => sum + item.harga * item.jumlah, 0
-    );
-
-    const daftar = keranjang.map(item =>
-        item.nama + " x " + item.jumlah
+    const items = cart.map(item =>
+        item.name + " - Rp" + item.price.toLocaleString("id-ID")
     ).join("\n");
 
-    alert(
-        "TERIMA KASIH SUDAH MEMESAN DI CERIBLOSSOM 🌸\n\n" +
-        daftar +
-        "\n\nTotal: " + rupiah(total) +
-        "\n\nIni adalah simulasi pemesanan."
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+    const message =
+        `Halo CeriFlowers! Saya ingin memesan bunga.\n\n` +
+        `Nama: ${name}\n` +
+        `WhatsApp: ${phone}\n` +
+        `Alamat: ${address}\n\n` +
+        `Pesanan:\n${items}\n\n` +
+        `Total: Rp${total.toLocaleString("id-ID")}`;
+
+    // Ganti dengan nomor WhatsApp toko kamu
+    const whatsapp = "6281234567890";
+
+    window.open(
+        "https://wa.me/" + whatsapp + "?text=" +
+        encodeURIComponent(message),
+        "_blank"
     );
-
-    keranjang = [];
-    perbaruiKeranjang();
-    tutupKeranjang();
 }
-
-/* NOTIFIKASI */
-let timerToast;
-
-function tampilToast(pesan) {
-    const toast = document.getElementById("toast");
-
-    toast.textContent = pesan;
-    toast.classList.add("show");
-
-    clearTimeout(timerToast);
-
-    timerToast = setTimeout(() => {
-        toast.classList.remove("show");
-    }, 2300);
-}
-
-/* TUTUP KERANJANG KLIK LUAR */
-document.getElementById("modal-keranjang")
-    .addEventListener("click", function(event) {
-        if (event.target === this) {
-            tutupKeranjang();
-        }
-    });
-
-/* ANIMASI INTRO */
-window.addEventListener("load", function() {
-    setTimeout(() => {
-        document.getElementById("intro").classList.add("hide");
-    }, 2200);
-});
